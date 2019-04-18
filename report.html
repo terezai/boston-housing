@@ -13447,8 +13447,12 @@ Standard deviation of prices: $165171.13154429474
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <ul>
-<li>Given that R^2 coefficient is 92.3% it implies that the the vast majority, i.e. 92.3% of the data was accurately predicted. However, that data consists of only 5 instances, which is not a big enough sample size in order to be able to draw consistent reliable conclusions.</li>
+<li><p>R^2 is a measure of the difference between a data point and the fitted line, across all data points. Therefore if every single data point lies on the line i.e. there is no difference, then we would have an R^2 value of 1. Given that R^2 coefficient is 92.3% it implies that the the vast majority, i.e. 92.3% of the data was accurately predicted. So using this model should result in high accuracy in prediction.</p>
+</li>
+<li><p>However, that data consists of only 5 instances, which is not a big enough sample size in order to be able to draw consistent reliable conclusions. A model predicting the mean/expected value would get an R^2 of only 0, explaining no variance at all.</p>
+</li>
 </ul>
+<p>Even though the R^2 value is high, the model only has seen 5 instances. So, with a healthy dose of skepticism, I don't consider this to be a reliable reusable model yet.</p>
 
 </div>
 </div>
@@ -13726,8 +13730,9 @@ In order to identify if a model is suffering from high bias or high variance, th
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
+<p>Grid Search is used to optimize our selection of hyper-parameters, which can be selecting the best value of a single hyper-parameter or the best combination of multiple. For example if we were selecting the best kernel to use with different values of C in a Support Vector Machine the input would be a dictionary where the keys are individual parameters with values to be tested in the grid search. The algorithm also requires an input for the scoring method, this can be an F1 or R^2 scorer for example. The output of the grid is an array of these scores on all the combination of parameters. We simply select the combination with the highest score. Grid search can be a an inexpensive alternative to evaluating the best combination of parameters as opposed to solving an optimization model to reduce the validation error for all combinations.</p>
 <p>The grid search technique enables finding good values for model parameters that cannot be optimized directly. By taking the model parameters, one can define a grid over the parameters and then evaluate the model's performance for each point in the grid by using K-fold cross-validation and in turn improve the effeciency of the algorithm.</p>
-<p>By exaamining the model above, and deriving the best max_depth and performance, we in fact used grid search. The grid search applies all the possible combinations of parameter values of algorithm and are evaluated and the best combination is retained for the dataset</p>
+<p>By examining the model above, and deriving the best max_depth and performance, we in fact used grid search. The grid search applies all the possible combinations of parameter values of algorithm and are evaluated and the best combination is retained for the dataset</p>
 
 </div>
 </div>
@@ -13750,12 +13755,7 @@ In order to identify if a model is suffering from high bias or high variance, th
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
-<ul>
-<li>The K-fold CV technique splits a given dataset into K folds of equal size, where each fold is used as a testing set one time and one time only, but is used as a training set K-1 times. </li>
-<li>The benefits of K-fold CV is that it matters less how the data gets divided. Every instance gets to be in a testing set exactly once and gets to be in the training set K-1 times. It also reduces the variance between train and test split in a single trial.</li>
-<li>The limitation of K-fold CV is when dealing with no-uniformly distributed data, it does not perform wel. </li>
-</ul>
+<p>K-fold cv is a method of splitting the training data into training and cross-validation sets. This is essential as we need to avoid overfitting when building the model, which may not become apparent until testing. We split the data into k-number of buckets and train the data k-1 times, with the extra k bucket being used for cross-validation. The average result of the k-number of cross-validations is used as the final result to check the performance of the model. This alleviates any bias when using the grid search technique, when only using a specific set of training data. Though we would want to know if the model is overfitting before testing, but we cannot do this without testing, hence why we use cross-validation. The benefit of k-fold cross-validation is that we don't lose more of our training data by further splitting it up, we simply rotate the data being used for training and for cross-validation. Once we have selected the best parameters using grid search and with using k-fold cross-validation, the final step is to use the test set to check the final performance of the model.</p>
 
 </div>
 </div>
@@ -13985,13 +13985,14 @@ Predicted selling price for Client 3&#39;s home: $938,053.85
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <ul>
-<li><p>Client 1's home: $406,933.33</p>
+<li><p>Predicted selling price for Client 1's home: $406,933.33</p>
 </li>
-<li><p>Client 2's home: $232,200.00</p>
+<li><p>Predicted selling price for Client 2's home:  $232,200.00</p>
 </li>
-<li><p>Client 3's home: $938,053.85</p>
+<li><p>Predicted selling price for Client 3's home: $938,053.85</p>
 </li>
 </ul>
+<p>Of the three houses, Client 3 has the biggest house, with the lowest poverty level and best student-teacher ratio therefore we expect client 3 to recieve the highest selling price, which is indeed the case. Additionally, with reducing number of rooms, increasing poverty level and increasing student-teacher ratios, Clients 1 and 2 receive lower selling prices as expected. All three prices fall within the minimum and maximum values of prices used in the training data. Client 3 has 8 rooms which is at the top few of data points used in the training data, therefore a very high price is to be expected. Client 1 has medium parameters, roughly falling in the middle of each parameter's dataset and thus has a selling price which is near the mean of the prices calculated earlier.</p>
 
 </div>
 </div>
